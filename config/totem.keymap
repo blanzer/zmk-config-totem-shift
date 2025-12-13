@@ -1,26 +1,24 @@
 /*
- * Totem Shift - Focus on Writing, Financials & programming 
+ *  * Totem Shift - Focus on Writing, Financials & programming 
  * Canary Base | Home Row Mods | Right-Hand Numpad | Left-Hand Excel Tools
- Resource: https://github.com/manna-harbour/miryoku/tree/master/docs/reference
- Resource: https://github.com/Apsu/Canary
+ * Resource: https://github.com/manna-harbour/miryoku/tree/master/docs/reference
+ * Resource: https://github.com/Apsu/Canary
  */
 
-#include <dt-bindings/zmk/mouse.h>
 #include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/pointing.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/mouse.h>
 
 /* LAYER DEFINITIONS */
-
 #define BASE 0
-#define NAV  1  /* Left Thumb: Arrows, Mouse, Media */
-#define NUM  2  /* Left Inner: Numbers (Right) & Excel (Left) */
-#define SYM  3  /* Right Thumb: Symbols */
-#define FUN  4  /* Right Inner: F-Keys & System */
+#define NAV  1
+#define NUM  2
+#define SYM  3
+#define FUN  4
 
 /* BEHAVIORS */
-
 &mt {
     quick-tap-ms = <100>;
     global-quick-tap;
@@ -28,32 +26,32 @@
     tapping-term-ms = <170>;
 };
 
-&sl { release-after-ms = <2000>; };
+&sl {
+    release-after-ms = <2000>;
+};
 
-&caps_word { continue-list = <UNDERSCORE MINUS BACKSPACE DELETE>; };
+&caps_word {
+    continue-list = <UNDERSCORE MINUS BACKSPACE DELETE>;
+};
 
 / {
     behaviors {
+        /* HOME ROW MODS */
         /* HOME ROW MODS
          * Hold key for Shift/Ctrl/Alt/Gui. Tap for Letter.
          * Tapping Term: 200ms (Standard)
          */
-
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            quick_tap_ms = <0>;
+            quick-tap-ms = <0>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
 
-        /* SMART LAYER TAP
-         * Tap = Sticky Layer (One-shot symbol)
-         * Hold = Momentary Layer (Keep layer open)
-         */
-
+        /* SMART LAYER TAP */
         lt_sl: layer_tap_sticky {
             compatible = "zmk,behavior-hold-tap";
             label = "LAYER_TAP_STICKY";
@@ -67,138 +65,87 @@
     combos {
         compatible = "zmk,combos";
 
-        /* SWISS / SPANISH CHARACTERS */
-
-        combo_ae {
-            timeout-ms = <50>;
-            key-positions = <28 29>;
-            bindings = <&kp RA(Q)>;
-        }; /* Ä */
-        combo_oe {
-            timeout-ms = <50>;
-            key-positions = <22 23>;
-            bindings = <&kp RA(P)>;
-        }; /* Ö */
-        combo_ue {
-            timeout-ms = <50>;
-            key-positions = <23 29>;
-            bindings = <&kp RA(Y)>;
-        }; /* Ü */
-        combo_nye {
-            timeout-ms = <50>;
-            key-positions = <27 28>;
-            bindings = <&kp RA(N)>;
-        }; /* Ñ */
-        /* CAPS WORD: Press Left Shift (T) + Right Shift (N) together */
-        /* Note: Using key indices for T (13) and N (16) on Canary */
-
-        combo_capsword {
-            timeout-ms = <50>;
-            key-positions = <13 16>;
-            bindings = <&caps_word>;
-        };
-
+        /* SWISS CHARACTERS */
+        combo_ae { timeout-ms = <50>; key-positions = <28 29>; bindings = <&kp RA(Q)>; };
+        combo_oe { timeout-ms = <50>; key-positions = <22 23>; bindings = <&kp RA(P)>; };
+        combo_ue { timeout-ms = <50>; key-positions = <23 29>; bindings = <&kp RA(Y)>; };
+        combo_nye { timeout-ms = <50>; key-positions = <27 28>; bindings = <&kp RA(N)>; };
+        
         /* UTILITY */
+        combo_capsword { timeout-ms = <50>; key-positions = <13 16>; bindings = <&caps_word>; };
+        combo_esc { timeout-ms = <50>; key-positions = <0 1>; bindings = <&kp ESC>; };
 
-        combo_esc {
+        /* BOOTLOADER COMBOS */
+        /* Left: Top Left + Bottom Left + Thumb */
+        boot_left {
             timeout-ms = <50>;
-            key-positions = <0 1>;
-            bindings = <&kp ESC>;
+            key-positions = <0 20 31>;
+            bindings = <&bootloader>;
         };
 
-        left-bootloader {
+        /* Right: Top Right + Bottom Right + Thumb */
+        boot_right {
             timeout-ms = <50>;
+            key-positions = <9 29 34>;
             bindings = <&bootloader>;
-            key-positions = <32 0 21>;
         };
-
-        right-bootloader {
-            timeout-ms = <50>;
-            bindings = <&bootloader>;
-            key-positions = <9 30 37>;
-        };   /* Escape (Top Left) */
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        /* * LAYER 0: CANARY BASE
-         * ---------------------------------------------------------------------------------------
-         * Left Thumbs:  NAV (Hold)/SPACE  |  NUM (Hold)/ESC   |  TAB
-         * Right Thumbs: SYM (Smart)/RET   |  FUN (Hold)/BSPC  |  DEL
-         */
-
+        /* LAYER 0: CANARY BASE */
         base_layer {
             label = "CANARY";
             bindings = <
-         &kp W       &kp L       &kp Y          &kp P        &kp B      &kp Z     &kp F           &kp O        &kp U       &kp SQT
-         &hm LGUI C  &hm LALT R  &hm LCTRL S    &hm LSHFT T  &kp G      &kp M     &hm RSHFT N     &hm RCTRL E  &hm RALT I  &hm RGUI A
-&kp TAB  &kp Q       &kp J       &kp V          &kp D        &kp K      &kp X     &kp H           &kp FSLH     &kp COMMA   &kp DOT     &kp SQT
-                                 &lt NAV SPACE  &lt NUM ESC  &kp ESC    &kp BSPC  &lt_sl SYM RET  &lt FUN DEL
+       &kp W        &kp L        &kp Y        &kp P        &kp B           &kp Z        &kp F        &kp O        &kp U        &kp SQT
+       &hm LGUI C   &hm LALT R   &hm LCTRL S  &hm LSHFT T  &kp G           &kp M        &hm RSHFT N  &hm RCTRL E  &hm RALT I   &hm RGUI A
+&kp TAB &kp Q       &kp J        &kp V        &kp D        &kp K           &kp X        &kp H        &kp FSLH     &kp COMMA    &kp DOT     &kp SQT
+                                 &lt NAV SPACE &lt NUM ESC &kp ESC         &kp BSPC     &lt_sl SYM RET &lt FUN DEL
             >;
         };
 
-        /* * LAYER 1: NAVIGATION & MOUSE
-         * ---------------------------------------------------------------------------------------
-         * Left Hand: Browser Tabs & Mouse
-         * Right Hand: Window Snapping (Win+Arrows) & Page Nav
-         */
-
+        /* LAYER 1: NAV */
         nav_layer {
             label = "NAV";
             bindings = <
-        &kp LC(W)  &kp C_PREV  &kp C_PP   &kp C_NEXT  &kp LC(T)        &kp PG_UP  &kp HOME      &kp UP        &kp END        &kp INS
-        &mkp LCLK  &mkp RCLK   &mkp MCLK  &kp LC(L)   &kp LC(LS(T))    &kp PG_DN  &kp LEFT      &kp DOWN      &kp RIGHT      &kp CAPS
-&trans  &kp LC(Z)  &kp LC(X)   &kp LC(C)  &kp LC(V)   &trans           &trans     &kp LG(LEFT)  &kp LG(DOWN)  &kp LG(RIGHT)  &kp LG(UP)  &trans
-                               &trans     &trans      &trans           &kp DEL    &trans        &trans
+       &kp LC(W)    &kp C_PREV   &kp C_PP     &kp C_NEXT   &kp LC(T)       &kp PG_UP    &kp HOME     &kp UP       &kp END      &kp INS
+       &mkp LCLK    &mkp RCLK    &mkp MCLK    &kp LC(L)    &kp LC(LS(T))   &kp PG_DN    &kp LEFT     &kp DOWN     &kp RIGHT    &kp CAPS
+&trans &kp LC(Z)    &kp LC(X)    &kp LC(C)    &kp LC(V)    &trans          &trans       &kp LG(LEFT) &kp LG(DOWN) &kp LG(RIGHT) &kp LG(UP)  &trans
+                                 &trans       &trans       &trans          &kp DEL      &trans       &trans
             >;
         };
 
-        /* * LAYER 2: NUMPAD & EXCEL
-         * ---------------------------------------------------------------------------------------
-         * Left Hand:  Math Operators & Clipboard (Excel Mode)
-         * Right Hand: Standard Numpad
-         */
-
+        /* LAYER 2: NUM */
         num_layer {
             label = "NUM";
             bindings = <
-        &kp ESC       &kp TAB      &kp LPAR      &kp RPAR         &trans           &kp KP_SLASH     &kp N7  &kp N8  &kp N9  &kp KP_MINUS
-        &kp KP_EQUAL  &kp KP_PLUS  &kp KP_MINUS  &kp KP_MULTIPLY  &kp KP_DIVIDE    &kp KP_MULTIPLY  &kp N4  &kp N5  &kp N6  &kp KP_PLUS
-&trans  &kp LC(Z)     &kp LC(X)    &kp LC(C)     &kp LC(V)        &trans           &kp N0           &kp N1  &kp N2  &kp N3  &kp KP_DOT    &trans
-                                   &trans        &trans           &trans           &trans           &trans  &trans
+       &kp ESC      &kp TAB      &kp LPAR     &kp RPAR     &trans          &kp KP_SLASH &kp N7       &kp N8       &kp N9       &kp KP_MINUS
+       &kp KP_EQUAL &kp KP_PLUS  &kp KP_MINUS &kp KP_MULTIPLY &kp KP_DIVIDE &kp KP_MULTIPLY &kp N4   &kp N5       &kp N6       &kp KP_PLUS
+&trans &kp LC(Z)    &kp LC(X)    &kp LC(C)    &kp LC(V)    &trans          &kp N0       &kp N1       &kp N2       &kp N3       &kp KP_DOT  &trans
+                                 &trans       &trans       &trans          &trans       &trans       &trans
             >;
         };
 
-        /* * LAYER 3: SYMBOLS (Getreuer Style)
-         * ---------------------------------------------------------------------------------------
-         * Left Hand:  Logic & Math Symbols
-         * Right Hand: Brackets & Punctuation
-         */
-
+        /* LAYER 3: SYM */
         sym_layer {
             label = "SYM";
             bindings = <
-        &kp GRAVE  &kp LT     &kp GT    &kp DQT    &kp DOT     &kp AMPS   &trans  &kp LBKT  &kp RBKT  &kp PRCNT
-        &kp EXCL   &kp MINUS  &kp PLUS  &kp EQUAL  &kp HASH    &kp PIPE   &trans  &kp LPAR  &kp RPAR  &kp COLON
-&trans  &kp TILDE  &kp UNDER  &kp FSLH  &kp ASTRK  &kp BSLH    &kp CARET  &trans  &kp LBRC  &kp RBRC  &kp QMARK  &trans
-                              &trans    &trans     &trans      &trans     &trans  &trans
+       &kp GRAVE    &kp LT       &kp GT       &kp DQT      &kp DOT         &kp AMPS     &trans       &kp LBKT     &kp RBKT     &kp PRCNT
+       &kp EXCL     &kp MINUS    &kp PLUS     &kp EQUAL    &kp HASH        &kp PIPE     &trans       &kp LPAR     &kp RPAR     &kp COLON
+&trans &kp TILDE    &kp UNDER    &kp FSLH     &kp ASTRK    &kp BSLH        &kp CARET    &trans       &kp LBRC     &kp RBRC     &kp QMARK   &trans
+                                 &trans       &trans       &trans          &trans       &trans       &trans
             >;
         };
 
-        /* * LAYER 4: FUNCTION & MEDIA
-         * ---------------------------------------------------------------------------------------
-         * Left Hand:  F-Keys (F1-F12) & Screenshot
-         * Right Hand: Volume, Mute, Playback, Bluetooth
-         */
-
+        /* LAYER 4: FUN */
         fun_layer {
             label = "FUN";
             bindings = <
-        &kp F12  &kp F7  &kp F8  &kp F9  &kp PSCRN    &bt BT_CLR  &kp C_MUTE    &kp C_VOL_DN  &kp C_VOL_UP  &trans
-        &kp F11  &kp F4  &kp F5  &kp F6  &kp SLCK     &trans      &kp C_PREV    &kp C_PP      &kp C_NEXT    &trans
-&trans  &kp F10  &kp F1  &kp F2  &kp F3  &kp PAUSE    &trans      &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &trans
-                         &trans  &trans  &trans       &trans      &trans        &trans
+       &kp F12      &kp F7       &kp F8       &kp F9       &kp PSCRN       &bt BT_CLR   &kp C_MUTE   &kp C_VOL_DN &kp C_VOL_UP &trans
+       &kp F11      &kp F4       &kp F5       &kp F6       &kp SLCK        &trans       &kp C_PREV   &kp C_PP     &kp C_NEXT   &trans
+&trans &kp F10      &kp F1       &kp F2       &kp F3       &kp PAUSE       &trans       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &trans
+                                 &trans       &trans       &trans          &trans       &trans       &trans
             >;
         };
     };
