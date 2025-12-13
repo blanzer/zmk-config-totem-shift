@@ -1,0 +1,126 @@
+/*
+ * Totem Shift CTO v3 - 38 Keys
+ * Canary Layout + Right Hand Numpad + Smart Layers
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/mouse.h>
+
+/* LAYER DEFINITIONS */
+#define BASE 0
+#define NAV  1  /* Left Thumb: Arrows, Mouse, Media */
+#define NUM  2  /* Left Inner: Numbers */
+#define SYM  3  /* Right Thumb: Symbols */
+#define FUN  4  /* Right Inner: F-Keys */
+
+&mt {
+    quick-tap-ms = <100>;
+    global-quick-tap;
+    flavor = "tap-preferred";
+    tapping-term-ms = <170>;
+};
+
+&sl {
+    release-after-ms = <2000>;
+};
+
+/ {
+    behaviors {
+        /* HOME ROW MODS */
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick_tap_ms = <0>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+
+        /* SMART SYMBOL LAYER: Tap = Sticky (One shot), Hold = Momentary (Keep open) */
+        lt_sl: layer_tap_sticky {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LAYER_TAP_STICKY";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "hold-preferred";
+            bindings = <&mo>, <&sl>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+        /* SWISS/SPANISH CHARACTERS */
+        combo_ae { timeout-ms = <50>; key-positions = <28 29>; bindings = <&kp RA(Q)>; }; // Adjusted indices for 38 keys
+        combo_oe { timeout-ms = <50>; key-positions = <22 23>; bindings = <&kp RA(P)>; }; 
+        combo_ue { timeout-ms = <50>; key-positions = <23 29>; bindings = <&kp RA(Y)>; }; 
+        combo_nye { timeout-ms = <50>; key-positions = <27 28>; bindings = <&kp RA(N)>; }; 
+        
+        /* ESCAPE on Left Top Ring+Pinky */
+        combo_esc { timeout-ms = <50>; key-positions = <0 1>; bindings = <&kp ESC>; };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        /* LAYER 0: CANARY BASE (38 Keys)
+         * Bottom Row now has 12 keys: TAB on far left, ' on far right
+         */
+        base_layer {
+            label = "CANARY";
+            bindings = <
+       &kp W        &kp L        &kp Y        &kp P        &kp B           &kp Z        &kp F        &kp O        &kp U        &kp SQT
+       &hm LGUI C   &hm LALT R   &hm LCTRL S  &hm LSHFT T  &kp G           &kp M        &hm RSHFT N  &hm RCTRL E  &hm RALT I   &hm RGUI A
+&kp TAB &kp Q       &kp J        &kp V        &kp D        &kp K           &kp X        &kp H        &kp FSLH     &kp COMMA    &kp DOT     &kp SQT
+                                 &lt NAV SPACE &lt NUM ESC &kp ESC         &kp BSPC     &lt_sl SYM RET &lt FUN DEL
+            >;
+        };
+
+        /* LAYER 1: NAVIGATION (Mouse & Arrows) */
+        nav_layer {
+            label = "NAV";
+            bindings = <
+       &trans       &kp C_PREV   &kp C_PP     &kp C_NEXT   &trans          &kp PG_UP    &kp HOME     &kp UP       &kp END      &kp INS
+       &mkp LCLK    &mkp RCLK    &mkp MCLK    &trans       &trans          &kp PG_DN    &kp LEFT     &kp DOWN     &kp RIGHT    &kp CAPS
+&trans &trans       &trans       &kp C_VOL_DN &kp C_VOL_UP &trans          &trans       &trans       &trans       &trans       &trans      &trans
+                                 &trans       &trans       &trans          &kp DEL      &trans       &trans
+            >;
+        };
+
+        /* LAYER 2: NUMPAD (Finance) */
+        num_layer {
+            label = "NUM";
+            bindings = <
+       &trans       &trans       &trans       &trans       &trans          &kp KP_SLASH &kp N7       &kp N8       &kp N9       &kp KP_MINUS
+       &trans       &trans       &trans       &trans       &trans          &kp KP_MULTIPLY &kp N4    &kp N5       &kp N6       &kp KP_PLUS
+&trans &trans       &trans       &trans       &trans       &trans          &kp N0       &kp N1       &kp N2       &kp N3       &kp KP_DOT  &trans
+                                 &trans       &trans       &trans          &trans       &trans       &trans
+            >;
+        };
+
+        /* LAYER 3: SYMBOLS (Getreuer Style) */
+        sym_layer {
+            label = "SYM";
+            bindings = <
+       &kp GRAVE    &kp LT       &kp GT       &kp DQT      &kp DOT         &kp AMPS     &trans       &kp LBKT     &kp RBKT     &kp PRCNT
+       &kp EXCL     &kp MINUS    &kp PLUS     &kp EQUAL    &kp HASH        &kp PIPE     &trans       &kp LPAR     &kp RPAR     &kp COLON
+&trans &kp TILDE    &kp UNDER    &kp FSLH     &kp ASTRK    &kp BSLH        &kp CARET    &trans       &kp LBRC     &kp RBRC     &kp QMARK   &trans
+                                 &trans       &trans       &trans          &trans       &trans       &trans
+            >;
+        };
+
+        /* LAYER 4: FUNCTION */
+        fun_layer {
+            label = "FUN";
+            bindings = <
+       &kp F12      &kp F7       &kp F8       &kp F9       &kp PSCRN       &bt BT_CLR   &trans       &trans       &trans       &bootloader
+       &kp F11      &kp F4       &kp F5       &kp F6       &kp SLCK        &trans       &trans       &trans       &trans       &trans
+&trans &kp F10      &kp F1       &kp F2       &kp F3       &kp PAUSE       &trans       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &trans
+                                 &trans       &trans       &trans          &trans       &trans       &trans
+            >;
+        };
+    };
+};

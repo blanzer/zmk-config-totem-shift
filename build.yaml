@@ -14,7 +14,7 @@ include:
     #cmake-args: -DCONFIG_LOG_PROCESS_THREAD_STARTUP_DELAY_MS=8000 #optional if logging is enabled
     #snippet: zmk-usb-logging #only enable for debugging
     artifact-name: totem-dongle-screen
-  - board: xiao_ble
-    shield: settings_reset
-    artifact-name: xiao_reset_settings
-    # there is no settingsreset (needed) for the XIAO
+  #- board: xiao_ble
+  #  #shield: settings_reset
+  #  #artifact-name: xiao_reset_settings
+  #  # there is no settingsreset (needed) for the XIAO
