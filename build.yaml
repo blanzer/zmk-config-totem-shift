@@ -1,9 +1,9 @@
 include:
-  - board: seeeduino_xiao_ble
+  - board: xiao_ble
     shield: totem_left rgbled_adapter
     cmake-args: -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
     artifact-name: totem_shift_left
-  - board: seeeduino_xiao_ble
+  - board: xiao_ble
     shield: totem_right rgbled_adapter
     cmake-args: -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
     artifact-name: totem_shift_right
