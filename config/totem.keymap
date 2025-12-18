@@ -11,15 +11,15 @@
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 
 #include <behaviors.dtsi>
-#include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
-#include <dt-bindings/zmk/ext_power.h>
 
-#define TOTEM      0
+#define BASE      0
 #define NUM       1
 #define MEDIA     2
 #define FUNCTION  3
+#define GAME      4
 
 &mt {
     quick-tap-ms = <100>;
@@ -102,7 +102,7 @@
             timeout-ms = <50>;
             key-positions = <34 35>;
             layers = <0 1 2 3>;
-            bindings = <&kp LC(Z)>;
+            bindings = <&undo_macro>;
         };
 
         combo_shift1 {
@@ -150,15 +150,22 @@
         combo_super {
             timeout-ms = <50>;
             key-positions = <32 37>;
-            layers = <0 2 3 1>;
+            layers = <0>;
             bindings = <&kp LGUI>;
         };
 
-        combo_backspace1 {
-            key-positions = <5 6>;
+        combo_backspace {
+            key-positions = <8 9>;
             timeout-ms = <50>;
             layers = <0 1 2 3>;
             bindings = <&kp BACKSPACE>;
+        };
+
+        to_game_layer {
+            bindings = <&to 4>;
+            key-positions = <4 5>;
+            layers = <0 1 2 3>;
+            timeout-ms = <50>;
         };
 
         region_screen {
@@ -166,27 +173,6 @@
             key-positions = <20 25>;
             layers = <0 1 2 3>;
             timeout-ms = <50>;
-        };
-
-        combo_backspace2 {
-            bindings = <&kp BACKSPACE>;
-            key-positions = <3 4>;
-            timeout-ms = <50>;
-            layers = <0 1 2 3>;
-        };
-
-        combo_del1 {
-            bindings = <&kp DEL>;
-            key-positions = <24 25>;
-            timeout-ms = <50>;
-            layers = <0 1 2 3>;
-        };
-
-        combo_del2 {
-            bindings = <&kp DEL>;
-            key-positions = <26 27>;
-            timeout-ms = <50>;
-            layers = <0 1 2 3>;
         };
 
         /* 			combo_copy {
@@ -202,6 +188,69 @@
     };
 
     macros {
+        ditto_kb: ditto_kb {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp GRAVE>,
+                <&macro_release>,
+                <&kp LCTRL>;
+        };
+
+        copy_macro: copy_macro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp C>,
+                <&macro_release>,
+                <&kp LCTRL>;
+        };
+
+        paste_macro: paste_macro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp V>,
+                <&macro_release>,
+                <&kp LCTRL>;
+        };
+
+        undo_macro: undo_macro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp Z>,
+                <&macro_release>,
+                <&kp LCTRL>;
+        };
+
+        gif: gif {
+            label = "giphy";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LSHFT>,
+                <&macro_tap>,
+                <&kp N2>,
+                <&macro_release>,
+                <&kp LSHFT>,
+                <&macro_tap>,
+                <&kp G &kp I &kp F>;
+        };
+
         capture_region: capture_region {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -215,20 +264,6 @@
 
             label = "CAPTURE_REGION";
         };
-
-        region_capture2: region_capture2 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings =
-                <&macro_press>,
-                <&kp RCTRL>,
-                <&macro_tap>,
-                <&kp K_APP>,
-                <&macro_release>,
-                <&kp RCTRL>;
-
-            label = "REGION_CAPTURE2";
-        };
     };
 
     keymap {
@@ -239,23 +274,25 @@
         base_layer {
             // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 
-            display-name = "TOTEM";
-			label = "TOTEM";
+            label = "BASE";
 
             // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+            //             ┌─────────┬─────────┬─────────┬─────────┬─────────┐                     ┌─────────┬─────────┬─────────┬─────────┬─────────┐
+            //             │    Q    │    W    │    F    │    P    │    B    │                     │    J    │    L    │    U    │    Y    │    ;    │   
+            //             ├─────────┼─────────┼─────────┼─────────┼─────────┤                     ├─────────┼─────────┼─────────┼─────────┼─────────┤
+            //             │    A    │    R    │    S    │    T    │    G    │                     │    M    │    N    │    E    │    I    │    O    │
+            //   ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                     ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
+            //   │   TAB   │    Z    │    X    │    C    │    D    │    V    │                     │    K    │    H    │    ,    │    .    │    /    │    '    │
+            //   └─────────┴─────────┴─────────┴─────────┼─────────┼─────────┼──────────┬┬─────────┼─────────┼─────────┼─────────┴─────────┴─────────┴─────────┘
+            //                                           │   COPY  │  PASTE  │  SPACE   ││  ENTER  │  BSPCE  │  DITTO  │  
+            //                                           └─────────┴─────────┴──────────┘└─────────┴─────────┴─────────┘
 
             bindings = <
-       &kp W        &kp L        &kp Y        &kp P        &kp B           &kp Z        &kp F        &kp O        &kp U        &kp SQT
-       &hm LGUI C   &hm LALT R   &hm LCTRL S  &hm LSHFT T  &kp G           &kp M        &hm RSHFT N  &hm RCTRL E  &hm RALT I   &hm RGUI A
-&kp TAB &kp Q       &kp J        &kp V        &kp D        &kp K           &kp X        &kp H        &kp FSLH     &kp COMMA    &kp DOT     &kp SQT
-                                 &lt NAV SPACE &lt NUM ESC &kp ESC         &kp BSPC     &lt_sl SYM RET &lt FUN DEL
+           &kp Q  &kp W  &kp F        &kp P         &kp B          &kp J      &kp L     &kp U      &kp Y    &kp SEMI
+           &kp A  &kp R  &kp S        &kp T         &kp G          &kp M      &kp N     &kp E      &kp I    &kp O
+&lt 3 TAB  &kp Z  &kp X  &kp C        &kp D         &kp V          &kp K      &kp H     &kp COMMA  &kp DOT  &kp FSLH  &lc 2 SQT
+                         &copy_macro  &paste_macro  &lt 1 SPACE    &lt 2 RET  &kp BSPC  &ditto_kb
             >;
-/*			bindings = <
-              &kp Q       &kp W       &kp E          &kp R         &kp T        &kp Y    &kp U        &kp I        &kp O       &kp P
-              &kp A 	  &kp S 	  &kp D  	     &kp F 		   &kp G        &kp H    &kp J  	  &kp K 	   &kp L  	   &kp SEMICOLON
-&lt 3 TAB	  &kp Z       &kp X       &kp C          &kp V         &kp B        &kp N    &kp M        &kp COMMA    &kp DOT     &kp SLASH           &lc 2 SQT
-                                      &kp LC(C)  	 &lt 2 LC(V)   &lt 1 SPACE  &lt 2 RET  &kp BSPC   &kp MINUS
-            >; */
         };
 
         // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -263,8 +300,7 @@
         num_layer {
             // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 
-            display-name = "NUM";
-			label = "NUM";
+            label = "NUM";
 
             // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
             //             ┌─────────┬─────────┬─────────┬─────────┬─────────┐                     ┌─────────┬─────────┬─────────┬─────────┬─────────┐
@@ -290,8 +326,7 @@
         media_layer {
             // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 
-            display-name = "MEDIA";
-			label = "MEDIA";
+            label = "MEDIA";
 
             // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
             //             ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
@@ -305,10 +340,10 @@
             //                                           └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘
 
             bindings = <
-                 &kp EXCL  &kp AT     &kp HASH  &kp DLLR   &kp PRCNT    &kp CARET  &kp AMPS      &kp ASTRK   &kp MINUS     &kp EQUAL
-                 &kp LPAR  &kp LEFT   &kp UP    &kp RIGHT  &kp RPAR     &kp PG_UP  &kp C_PREV    &kp C_PP    &kp C_NEXT    &kp HOME
-&kp PRINTSCREEN  &kp LBKT  &kp GRAVE  &kp DOWN  &kp UNDER  &kp RBKT     &kp PG_DN  &kp C_VOL_UP  &kp C_MUTE  &kp C_VOL_DN  &kp END    &to 0
-                                      &kp LALT  &kp LCTRL  &kp LSHFT    &trans     &trans        &trans
+        &kp EXCL  &kp AT     &kp HASH  &kp DLLR   &kp PRCNT    &kp CARET  &kp AMPS      &kp ASTRK   &kp MINUS     &kp EQUAL
+        &kp LPAR  &kp LEFT   &kp UP    &kp RIGHT  &kp RPAR     &kp PG_UP  &kp C_PREV    &kp C_PP    &kp C_NEXT    &kp HOME
+&trans  &kp LBKT  &kp GRAVE  &kp DOWN  &kp UNDER  &kp RBKT     &kp PG_DN  &kp C_VOL_UP  &kp C_MUTE  &kp C_VOL_DN  &kp END    &to 0
+                             &kp LALT  &kp LCTRL  &kp LSHFT    &trans     &trans        &trans
             >;
         };
 
@@ -317,29 +352,53 @@
         function_layer {
             // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 
-            display-name = "Fn";
-			label = "FUNCTION";
+            label = "FUNCTION";
 
             // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
             //             ┌─────────┬─────────┬─────────┬─────────┬─────────┐                     ┌─────────┬─────────┬─────────┬─────────┬─────────┐
-            //             │  RESET  │  BT CLR │ OUT TOG │  WIN ^  │ BTSEL 0 │                     │   INS   │    F7   │    F8   │    F9   │   F12   │
+            //             │  RESET  │  BT CLR │ OUT TOG │         │ BTSEL 0 │                     │   INS   │    F7   │    F8   │    F9   │   F12   │
             //             ├─────────┼─────────┼─────────┼─────────┼─────────┤                     ├─────────┼─────────┼─────────┼─────────┼─────────┤
-            //             │  BOOTLD │ BT NEXT │  WIN <  │  WIN >  │ BTSEL 1 │                     │  SLCK   │    F4   │    F5   │    F6   │   F11   │
+            //             │  BOOTLD │ BT NEXT │         │         │ BTSEL 1 │                     │  SCRL   │    F4   │    F5   │    F6   │   F11   │
             //   ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                     ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
-            //   │         │ CAPTURE │ BT PREV │ STUDIO  │  WIN v  │ BTSEL 2 │                     │  PAUSE  │    F1   │    F2   │    F3   │   F10   │         │
+            //   │         │         │ BT PREV │         │         │ BTSEL 2 │                     │  PAUSE  │    F1   │    F2   │    F3   │   F10   │         │
             //   └─────────┴─────────┴─────────┴─────────┼─────────┼─────────┼──────────┬┬─────────┼─────────┼─────────┼─────────┴─────────┴─────────┴─────────┘
             //                                           │         │         │  SPACE   ││         │         │         │ 
             //                                           └─────────┴─────────┴──────────┘└─────────┴─────────┴─────────┘
 
             bindings = <
-        &sys_reset        &bt BT_CLR  &out OUT_TOG            &kp LG(LA(UP_ARROW))     &bt BT_SEL 0    &kp INSERT       &kp F7  &kp F8  &kp F9  &kp F12
-        &bootloader       &bt BT_NXT  &kp LG(LA(LEFT_ARROW))  &kp LG(LA(RIGHT_ARROW))  &bt BT_SEL 1    &kp SLCK         &kp F4  &kp F5  &kp F6  &kp F11
-&trans  &region_capture2  &bt BT_PRV  &studio_unlock          &kp LG(LA(DOWN_ARROW))   &bt BT_SEL 2    &kp PAUSE_BREAK  &kp F1  &kp F2  &kp F3  &kp F10  &trans
-                                      &trans                  &trans                   &kp SPACE       &trans           &trans  &trans
+        &sys_reset   &bt BT_CLR  &out OUT_TOG  &trans  &bt BT_SEL 0    &kp INSERT       &kp F7  &kp F8  &kp F9  &kp F12
+        &bootloader  &bt BT_NXT  &trans        &trans  &bt BT_SEL 1    &kp SLCK         &kp F4  &kp F5  &kp F6  &kp F11
+&trans  &trans       &bt BT_PRV  &trans        &trans  &bt BT_SEL 2    &kp PAUSE_BREAK  &kp F1  &kp F2  &kp F3  &kp F10  &trans
+                                 &trans        &trans  &kp SPACE       &trans           &trans  &trans
             >;
         };
 
         // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄		
 
+        game_layer {
+            // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+
+            label = "GAME";
+
+            // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+            //             ┌─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┐
+            //             │    1    │    2    │    3    │    4    │    5    │                    │         │         │         │         │         │   
+            //             ├─────────┼─────────┼─────────┼─────────┼─────────┤                    ├─────────┼─────────┼─────────┼─────────┼─────────┤
+            //             │  SHIFT  │    A    │    W    │    D    │    F    │                    │         │         │         │         │         │
+            //   ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                    ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
+            //   │ ------- │  CRTL   │ ------- │    S    │    C    │ ------- │                    │         │         │         │         │         │         │
+            //   └─────────┴─────────┴─────────┴─────────┼─────────┼─────────┼─────────┬┬─────────┼─────────┼─────────┼─────────┴─────────┴─────────┴─────────┘
+            //                                           │   ALT   │  SPACE  │  SPACE  ││         │         │         │  
+            //                                           └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘
+
+            bindings = <
+       &kp N1     &kp N2  &kp N3    &kp N4     &kp N5       &trans  &trans  &trans  &trans  &trans
+       &kp LSHFT  &kp A   &kp W     &kp D      &kp F        &trans  &trans  &trans  &trans  &trans
+&none  &kp LCTRL  &none   &kp S     &kp C      &none        &trans  &trans  &trans  &trans  &trans  &to 0
+                          &kp LALT  &kp SPACE  &kp SPACE    &trans  &trans  &trans
+            >;
+        };
+
+        // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄		
     };
 };
