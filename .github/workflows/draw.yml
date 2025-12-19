@@ -1,0 +1,25 @@
+name: Draw Keymap
+on:
+  workflow_dispatch:  # run manually
+  push:               
+    paths:
+      - "config/*.keymap"
+      - "keymap_drawer.config.yaml"
+      - ".github/workflows/draw.yml"
+
+jobs:
+  draw:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # save to repo
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Draw Keymap
+        uses: caksoylar/keymap-drawer-action@v0.4.0
+        with:
+          keymap_file: "config/totem.keymap"      
+          config_file: "keymap_drawer.config.yaml"
+          output_folder: "img"                     
+          draw_args: "totem"                       
+          commit_message: "Draw keymap [skip ci]"
