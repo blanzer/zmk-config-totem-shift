@@ -7,20 +7,23 @@ draw_config:
   key_rx: 6.0
   key_ry: 6.0
   dark_mode: auto
-  n_columns: 1  # 1 column looks best for Totem (tall and thin)
-  separate_combo_diagrams: false
+  n_columns: 2  # 1 column looks best for Totem (tall and thin)
+  separate_combo_diagrams: true
+  trans_legend: {t: ""}
   footer_text: "Totem Layout"
 
 parse_config:
+  zmk_behavior_map:
+      lt_custom: lt
+      sk_custom: sk
+      mt_shift: mt  
+  
   # 1. Map your custom behaviors to readable text
   raw_binding_map:
     "&bootloader": Boot
     "&caps_word": Caps Word
     "&sys_reset": Reset
-    "&lt_custom": LT
-    "&sk_custom": Sticky
-    "&mt_shift": Shift
-    
+
     # Map the Bluetooth keys to short names
     "&bt BT_SEL 0": BT 1
     "&bt BT_SEL 1": BT 2
