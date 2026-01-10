@@ -20,14 +20,20 @@ It includes these additional projects and features:
 
 ![TOTEM layout](/docs/images/TOTEM_layout.svg)
 
-## Nice!Nano IO connect list:
+## Index numbers
 
-| nice_nano_v2.overlay | Display | 
-| :------------------- | :------ |
-| SPIM_SCK | SCL |
-| SPIM_MOSI | SDA |
-| cmd-data-gpios | DC |
-| reset-gpios | RES |
+**Left Hand**
+ 0  1  2  3  4      (Top Row)
+10 11 12 13 14      (Home Row)
+20 21 22 23 24 25   (Bottom Row - 20 is Outer Pinky Tab)
+         32 33 34   (Thumbs: Outer, Middle, Inner)
+
+
+**Right Hand**
+      5  6  7  8  9 (Top Row)
+     15 16 17 18 19 (Home Row)
+  26 27 28 29 30 31 (Bottom Row - 31 is Outer Pinky Minus)
+  35 36 37          (Thumbs: Inner, Middle, Outer)
 
 ## HOW TO USE
 

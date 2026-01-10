@@ -42,10 +42,10 @@
     combos {
         compatible = "zmk,combos";
 
-        /* TOGGLE LAYOUT: Left Outer Thumb + Right Outer Thumb (hold together) */
+        /* TOGGLE LAYOUT: (pinkies hold together) */
         combo_toggle_layout {
             timeout-ms = <50>;
-            key-positions = <34 37>; /* NAV + SHIFT Thumbs */
+            key-positions = <20 31>; 
             bindings = <&tog QWERTZ>; /* Toggles Layer 1 On/Off */
         };
         
