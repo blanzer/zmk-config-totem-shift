@@ -1,0 +1,209 @@
+layout: {zmk_keyboard: totem}
+layers:
+  BASE: [W, L, Y, P, B, Z, F, O, U, '''', C, R, S, T, G, M, N, E, I, A, ⇥, Q, J, V, D, K, X, H, /, ',', ., '-', LT, ␣, LT, LT, ⌫, Sticky]
+  QWERTZ:
+  - Q
+  - W
+  - E
+  - R
+  - T
+  - Z
+  - U
+  - I
+  - O
+  - P
+  - A
+  - S
+  - D
+  - F
+  - G
+  - H
+  - J
+  - K
+  - L
+  - ;
+  - {t: ▽, type: trans}
+  - Y
+  - X
+  - C
+  - V
+  - B
+  - N
+  - M
+  - ','
+  - .
+  - '-'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  NAV:
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - $$mdi:brightness-5$$
+  - $$mdi:brightness-7$$
+  - PgUp
+  - Home
+  - ↑
+  - End
+  - ⌦
+  - Sticky
+  - Sticky
+  - Sticky
+  - Sticky
+  - {t: ▽, type: trans}
+  - PgDn
+  - ←
+  - ↓
+  - →
+  - ⌫
+  - {t: ▽, type: trans}
+  - Undo
+  - Cut
+  - Copy
+  - Paste
+  - {t: ▽, type: trans}
+  - $$mdi:volume-high$$
+  - $$mdi:volume-medium$$
+  - $$mdi:skip-backward$$
+  - $$mdi:play-pause$$
+  - $$mdi:skip-forward$$
+  - $$mdi:volume-off$$
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - ⌦
+  - {t: ▽, type: trans}
+  NUM:
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - /
+  - '7'
+  - '8'
+  - '9'
+  - '-'
+  - Sticky
+  - Sticky
+  - Sticky
+  - Sticky
+  - {t: ▽, type: trans}
+  - '*'
+  - '4'
+  - '5'
+  - '6'
+  - +
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '0'
+  - '1'
+  - '2'
+  - '3'
+  - .
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  SYM:
+  - '`'
+  - <
+  - '>'
+  - '"'
+  - .
+  - (
+  - )
+  - Ö
+  - Ü
+  - '%'
+  - '!'
+  - '-'
+  - +
+  - '='
+  - '#'
+  - '|'
+  - ñ
+  - '&'
+  - Ä
+  - ':'
+  - {t: ▽, type: trans}
+  - '~'
+  - _
+  - /
+  - '*'
+  - \
+  - '['
+  - ']'
+  - '{'
+  - '}'
+  - '?'
+  - ^
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  FUN:
+  - BT Clr
+  - {t: ▽, type: trans}
+  - PSCRN
+  - SLCK
+  - PAUSE BREAK
+  - F12
+  - F7
+  - F8
+  - F9
+  - {t: ▽, type: trans}
+  - BT 1
+  - BT 2
+  - BT 3
+  - BT 4
+  - {t: ▽, type: trans}
+  - F11
+  - F4
+  - F5
+  - F6
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - F10
+  - F1
+  - F2
+  - F3
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+combos:
+- p: [20, 31]
+  k: {t: QWERTZ, h: toggle}
+- p: [0, 1]
+  k: Esc
+- p: [13, 16]
+  k: Caps Word
+- p: [0, 10, 20]
+  k: Boot
+- p: [9, 19, 31]
+  k: Boot
