@@ -1,6 +1,44 @@
 layout: {zmk_keyboard: totem}
 layers:
-  BASE: [W, L, Y, P, B, Z, F, O, U, '''', C, R, S, T, G, M, N, E, I, A, ⇥, Q, J, V, D, K, X, H, /, ',', ., '-', LT, ␣, LT, LT, ⌫, Sticky]
+  BASE:
+  - W
+  - L
+  - Y
+  - P
+  - B
+  - Z
+  - F
+  - O
+  - U
+  - ''''
+  - C
+  - R
+  - S
+  - T
+  - G
+  - M
+  - N
+  - E
+  - I
+  - A
+  - ⇥
+  - Q
+  - J
+  - V
+  - D
+  - K
+  - X
+  - H
+  - /
+  - ','
+  - .
+  - '-'
+  - {t: Esc, h: NUM}
+  - ␣
+  - {t: ⇥, h: NAV}
+  - {t: ⏎, h: SYM}
+  - ⌫
+  - {t: LSHIFT, h: sticky}
   QWERTZ:
   - Q
   - W
@@ -51,10 +89,10 @@ layers:
   - ↑
   - End
   - ⌦
-  - Sticky
-  - Sticky
-  - Sticky
-  - Sticky
+  - {t: Gui, h: sticky}
+  - {t: Alt, h: sticky}
+  - {t: Ctrl, h: sticky}
+  - {t: LSHIFT, h: sticky}
   - {t: ▽, type: trans}
   - PgDn
   - ←
@@ -75,7 +113,7 @@ layers:
   - $$mdi:volume-off$$
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - ⌦
   - {t: ▽, type: trans}
@@ -90,10 +128,10 @@ layers:
   - '8'
   - '9'
   - '-'
-  - Sticky
-  - Sticky
-  - Sticky
-  - Sticky
+  - {t: Gui, h: sticky}
+  - {t: Alt, h: sticky}
+  - {t: Ctrl, h: sticky}
+  - {t: LSHIFT, h: sticky}
   - {t: ▽, type: trans}
   - '*'
   - '4'
@@ -112,7 +150,7 @@ layers:
   - '3'
   - .
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -154,7 +192,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   FUN:
@@ -190,10 +228,10 @@ layers:
   - F3
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
 combos:
