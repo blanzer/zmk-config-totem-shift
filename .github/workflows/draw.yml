@@ -1,25 +1,21 @@
 name: Draw Keymap
 on:
-  workflow_dispatch:  # run manually
-  push:               
+  workflow_dispatch:  # allow manual run
+  push:
     paths:
       - "config/*.keymap"
+      - "config/*.dtsi"
       - "keymap_drawer.config.yaml"
       - ".github/workflows/draw.yml"
 
 jobs:
   draw:
-    runs-on: ubuntu-latest
+    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main
     permissions:
-      contents: write  # save to repo
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Draw Keymap
-        uses: caksoylar/keymap-drawer-action@v0.4.0
-        with:
-          keymap_file: "config/totem.keymap"      
-          config_file: "keymap_drawer.config.yaml"
-          output_folder: "img"                     
-          draw_args: "totem"                       
-          commit_message: "Draw keymap [skip ci]"
+      contents: write  # allow pushing the SVG back to the repo
+    with:
+      keymap_patterns: "config/totem.keymap"        # Which file to parse
+      config_path: "keymap_drawer.config.yaml"      # Your config file
+      output_folder: "img"                          # Where to save the SVGs
+      parse_args: ""                                # Optional: extra parse args
+      draw_args: "totem"                            # Optional: extra draw args

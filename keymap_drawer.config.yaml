@@ -1,74 +1,49 @@
+draw_config:
+  key_w: 60
+  key_h: 56
+  split_gap: 30.0
+  combo_w: 28
+  combo_h: 26
+  key_rx: 6.0
+  key_ry: 6.0
+  dark_mode: auto
+  n_columns: 1  # 1 column looks best for Totem (tall and thin)
+  separate_combo_diagrams: false
+  footer_text: "Totem Layout"
+
 parse_config:
-  zmk_additional_includes:
-    - "modules/zmk/helpers/include"
-
-  zmk_preamble: |
-    #include <zmk-helpers/key-labels/42.h>
-    #define CONFIG_WIRELESS
-
+  # 1. Map your custom behaviors to readable text
   raw_binding_map:
-    "&sys_reset": Reset
     "&bootloader": Boot
     "&caps_word": Caps Word
-
+    "&sys_reset": Reset
+    "&lt_custom": LT
+    "&sk_custom": Sticky
+    "&mt_shift": Shift
+    
+    # Map the Bluetooth keys to short names
     "&bt BT_SEL 0": BT 1
     "&bt BT_SEL 1": BT 2
     "&bt BT_SEL 2": BT 3
     "&bt BT_SEL 3": BT 4
+    "&bt BT_CLR": BT Clr
 
-    "&kp LC(INS)": Copy
+    # Map your Shortcuts (Nav Layer)
+    "&kp LC(C)": Copy
+    "&kp LC(V)": Paste
     "&kp LC(X)": Cut
-    "&kp LS(INS)": Paste
+    "&kp LC(Z)": Undo
 
-    "&kp LG(LC(LEFT))": Prev Desk
-    "&kp LG(LC(RIGHT))": Next Desk
-    "&kp LG(LC(LS(A)))": Pin App
-    "&kp LG(LC(LS(Q)))": Pin Win
+    # US-Intl Symbols (so they show as the symbol, not the code)
+    "&kp RA(Q)": Ä
+    "&kp RA(P)": Ö
+    "&kp RA(Y)": Ü
+    "&kp RA(N)": ñ
+    "&kp RA(S)": ß
 
-    "&swapper": Next Win
-    "&kp LS(TAB)": Prev Win
-    "&dot_spc": Sentence
-    "&num_dance": { "t": "Numword", "s": "Sticky Num" }
-    "&magic_shift": { "t": Magic, "h": "Shift" }
-    "&smart_mouse": Smart Mouse
-
-    "&hml LS(LALT)TAB": Tab
-    "&hm_combo_ldr": Leader
-    "&hm_combo_ldrsh": Shift+Leader
-    "&hm_combo_lpar": { "t": "(", "right": "<" }
-    "&hm_combo_rpar": { "t": ")", "right": ">" }
-    "&kp LBKT": { "t": "[", "right": "{" }
-    "&kp RBKT": { "t": "]", "right": "}" }
-
-    "&mmv MOVE_UP": Mouse ↑
-    "&mmv MOVE_DOWN": Mouse ↓
-    "&mmv MOVE_LEFT": Mouse ←
-    "&mmv MOVE_RIGHT": Mouse →
-
-    "&msc SCRL_UP": Scroll ↑
-    "&msc SCRL_DOWN": Scroll ↓
-    "&msc SCRL_LEFT": Scroll ←
-    "&msc SCRL_RIGHT": Scroll →
-
-    "&mkp LCLK": Left Click
-    "&mkp RCLK": Right Click
-    "&mkp MCLK": Middle Click
-    "&mkp MB4": Back Click
-    "&mkp MB5": Forward Click
-
-  trans_legend: { "t": "", "type": "trans" }
-
-  zmk_combos:
-    combo_cut: { align: bottom, o: 0.15 }
-    combo_ldrsh: { align: top, o: 1.35 }
-
-    combo_lt: { hidden: true }
-    combo_gt: { hidden: true }
-    combo_lbrc: { hidden: true }
-    combo_rbrc: { hidden: true }
-
+  # 2. Make the standard keys look pretty (Icons & Short names)
   zmk_keycode_map:
-    # custom mappings
+    # Modifiers
     LALT: Alt
     RALT: Alt
     LCTRL: Ctrl
@@ -77,100 +52,65 @@ parse_config:
     RGUI: Gui
     LSHFT: Shift
     RSHFT: Shift
-
-    BSPC: Bspc
-    DEL: Del
+    
+    # Common Keys
+    BSPC: ⌫
+    DEL: ⌦
     ESC: Esc
-    RET: Enter
-    SPACE: Spc
-    TAB: Tab
-
+    RET: ⏎
+    SPACE: ␣
+    TAB: ⇥
+    
+    # Navigation
     PG_UP: PgUp
     PG_DN: PgDn
-    INS: Ins
     HOME: Home
     END: End
-
     UP: ↑
     DOWN: ↓
     LEFT: ←
     RIGHT: →
-
+    
+    # Media Icons (SVG paths)
     C_MUTE: $$mdi:volume-off$$
-    C_PP: $$mdi:play-pause$$
     C_VOL_UP: $$mdi:volume-high$$
     C_VOL_DN: $$mdi:volume-medium$$
+    C_BRI_UP: $$mdi:brightness-5$$
+    C_BRI_DN: $$mdi:brightness-7$$
+    C_PP: $$mdi:play-pause$$
     C_NEXT: $$mdi:skip-forward$$
     C_PREV: $$mdi:skip-backward$$
-
-    # defaults
-    AMPERSAND: "&"
-    AMPS: "&"
-    APOS: "'"
-    APOSTROPHE: "'"
-    ASTERISK: "*"
-    ASTRK: "*"
-    AT: "@"
-    AT_SIGN: "@"
-    BACKSLASH: \
-    BSLH: \
-    CARET: ^
-    COLON: ":"
-    COMMA: ","
-    DLLR: $
-    DOLLAR: $
-    DOT: .
-    DOUBLE_QUOTES: '"'
-    DQT: '"'
-    EQUAL: "="
+    
+    # Symbols
     EXCL: "!"
-    EXCLAMATION: "!"
-    FSLH: /
-    GRAVE: "`"
-    GREATER_THAN: ">"
-    GT: ">"
+    AT: "@"
     HASH: "#"
-    LBKT: "["
-    LBRC: "{"
-    LEFT_BRACE: "{"
-    LEFT_BRACKET: "["
-    LEFT_PARENTHESIS: (
-    LESS_THAN: <
-    LPAR: (
-    LT: <
-    MINUS: "-"
-    NON_US_BACKSLASH: \
-    NON_US_BSLH: "|"
-    NON_US_HASH: "#"
-    NUHS: "#"
-    PERCENT: "%"
-    PERIOD: .
-    PIPE: "|"
-    PIPE2: "|"
-    PLUS: +
-    POUND: "#"
+    DLLR: "$"
     PRCNT: "%"
-    QMARK: "?"
-    QUESTION: "?"
+    CARET: "^"
+    AMPS: "&"
+    ASTRK: "*"
+    LPAR: "("
+    RPAR: ")"
+    MINUS: "-"
+    PLUS: "+"
+    EQUAL: "="
+    LBKT: "["
     RBKT: "]"
+    LBRC: "{"
     RBRC: "}"
-    RIGHT_BRACE: "}"
-    RIGHT_BRACKET: "]"
-    RIGHT_PARENTHESIS: )
-    RPAR: )
-    SEMI: ;
-    SEMICOLON: ;
-    SINGLE_QUOTE: "'"
-    SLASH: /
+    SEMI: ";"
+    COLON: ":"
     SQT: "'"
-    STAR: "*"
+    DQT: '"'
+    GRAVE: "`"
     TILDE: "~"
-    TILDE2: "~"
-    UNDER: _
-    UNDERSCORE: _
-
-draw_config:
-  append_colon_to_layer_header: false
-  dark_mode: auto
-  n_columns: 2
-  footer_text: "zmk-config"
+    BSLH: "\\"
+    PIPE: "|"
+    GT: ">"
+    LT: "<"
+    QMARK: "?"
+    FSLH: "/"
+    UNDER: "_"
+    COMMA: ","
+    DOT: "."

@@ -4,126 +4,162 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/mouse.h> /* Standard Mouse Keys */
 
 /* LAYER DEFINITIONS */
 #define BASE 0
-#define NAV  1
-#define NUM  2
-#define SYM  3
-#define FUN  4
+#define QWERTZ 1  /* NEW: Qwertz Layer */
+#define NAV  2
+#define NUM  3
+#define SYM  4
+#define FUN  5
 
 / {
-    /* BEHAVIORS */
     behaviors {
-        /* Sticky Layer: Tap to activate (1 key), Double-tap to lock layer */
-        sl_custom: sticky_layer_custom {
-            compatible = "zmk,behavior-sticky-key";
-            label = "STICKY_LAYER";
-            #binding-cells = <1>;
-            bindings = <&mo>;
-            release-after-ms = <1000>;
-            quick-release;
+        /* LAYER TAP: Hold for Layer, Tap for Key */
+        lt_custom: layer_tap_custom {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LAYER_TAP";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            bindings = <&mo>, <&kp>;
         };
 
-        /* Sticky Mod: Tap Mod, then Tap Key (e.g., Tap Ctrl, Tap C = Ctrl+C) */
-        sk_mod: sticky_mod {
+        /* STICKY KEY: Tap to activate, it waits for the next keypress */
+        sk_custom: sticky_key_custom {
             compatible = "zmk,behavior-sticky-key";
-            label = "STICKY_MOD";
+            label = "STICKY_KEY";
             #binding-cells = <1>;
             bindings = <&kp>;
             release-after-ms = <2000>;
-            quick-release;
-            ignore-modifiers; 
+            quick-release; /* Vital: Cancel modifier immediately after typing */
+            ignore-modifiers;
         };
     };
 
-    /* COMBOS */
     combos {
         compatible = "zmk,combos";
 
-        /* UTILITY COMBOS */
-        combo_esc {
+        /* TOGGLE LAYOUT: Left Outer Thumb + Right Outer Thumb (hold together) */
+        combo_toggle_layout {
             timeout-ms = <50>;
-            key-positions = <0 1>;  /* Top Left: W + L */
-            bindings = <&kp ESC>;
-        };
-
-        combo_enter {
-            timeout-ms = <50>;
-            key-positions = <16 17>; /* Right Home: N + E */
-            bindings = <&kp RET>;
-        };
-
-        combo_capsword {
-            timeout-ms = <50>;
-            key-positions = <13 16>; /* Left Index + Right Index: T + N */
-            bindings = <&caps_word>;
+            key-positions = <34 37>; /* NAV + SHIFT Thumbs */
+            bindings = <&tog QWERTZ>; /* Toggles Layer 1 On/Off */
         };
         
-        /* BOOTLOADER (Safety combo: Top 3 outer keys) */
+        /* ESCAPE: Top Left W + L */
+        combo_esc { timeout-ms = <50>; key-positions = <0 1>; bindings = <&kp ESC>; };
+        
+        /* CAPS WORD: Left Index (T) + Right Index (N) */
+        combo_cw  { timeout-ms = <50>; key-positions = <13 16>; bindings = <&caps_word>; };
+        
+        /* ENTER: Right Home N + E (Optionally keep this if you like combos) */
+        /* combo_ret { timeout-ms = <50>; key-positions = <16 17>; bindings = <&kp RET>; }; */
+        
+        /* BOOTLOADER */
         boot_left  { timeout-ms = <50>; key-positions = <0 10 20>; bindings = <&bootloader>; };
         boot_right { timeout-ms = <50>; key-positions = <9 19 31>; bindings = <&bootloader>; };
     };
 
-    /* KEYMAP */
+    /* TRI-LAYER LOGIC: If NUM and SYM are pressed, activate FUN */
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <NUM SYM>;
+            then-layer = <FUN>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
-        /* LAYER 0: BASE (Pure Canary) */
+        /* LAYER 0: BASE (Canary)
+         * THUMBS: [NUM/ESC] [SPACE] [NAV/TAB]  |  [SYM/RET] [BSPC] [STICKY SHIFT]
+         * OUTER KEYS: [TAB] (Left), [MINUS] (Right)
+         */
         base_layer {
             label = "BASE";
             bindings = <
-      &kp W      &kp L      &kp Y      &kp P      &kp B           &kp Z      &kp F      &kp O      &kp U      &kp SQT
-      &kp C      &kp R      &kp S      &kp T      &kp G           &kp M      &kp N      &kp E      &kp I      &kp A
-&kp TAB &kp Q    &kp J      &kp V      &kp D      &kp K           &kp X      &kp H      &kp FSLH   &kp COMMA  &kp DOT  &kp SEMI
-                 &sl_custom NUM  &kp SPACE  &sl_custom NAV        &sl_custom SYM  &kp BSPC   &sl_custom FUN
+      &kp W             &kp L      &kp Y      &kp P      &kp B           &kp Z      &kp F      &kp O      &kp U      &kp SQT
+      &kp C             &kp R      &kp S      &kp T      &kp G           &kp M      &kp N      &kp E      &kp I      &kp A
+&kp TAB  &kp Q   &kp J     &kp V      &kp D   &kp K               &kp X      &kp H      &kp FSLH  &kp COMMA  &kp DOT  &kp MINUS
+                &lt_custom NUM ESC   &kp SPACE  &lt_custom NAV TAB   &lt_custom SYM RET  &kp BSPC   &sk_custom LSHIFT
+            >;
+        };
+
+
+        /* LAYER 1: QWERTZ (Toggle Backup) 
+         * Note: Y and Z are swapped compared to US QWERTY standard.
+         * Thumbs remain IDENTICAL so your layers (NUM, NAV, SYM) still work!
+         */
+        qwertz_layer {
+            label = "QWERTZ";
+            bindings = <
+      &kp Q             &kp W      &kp E      &kp R      &kp T           &kp Z      &kp U      &kp I      &kp O      &kp P
+      &kp A             &kp S      &kp D      &kp F      &kp G           &kp H      &kp J      &kp K      &kp L      &kp SEMI
+ &trans  &kp Y      &kp X      &kp C      &kp V    &kp B              &kp N      &kp M      &kp COMMA  &kp DOT  &kp MINUS &trans
+                &trans   &trans   &trans        &trans   &trans   &trans
             >;
         };
 
         /* LAYER 1: NAV
-         * Left Home Row: GUI, Alt, Ctrl, Shift (Sticky Mods)
-         * Bottom Left: Clipboard Macros (Undo, Cut, Copy, Paste)
+         * LEFT HAND: Sticky Mods (GUI, ALT, CTRL, SHIFT)
+         * RIGHT HAND: Arrows & Clipboard
+         * BOTTOM LEFT: Undo, Cut, Copy, Paste
          */
         nav_layer {
             label = "NAV";
             bindings = <
-      &kp ESC    &kp TAB    &kp HOME   &kp END    &kp DEL         &kp PG_UP  &kp PG_DN  &kp UP     &kp LC(X)  &kp LC(V)
-      &sk_mod LGUI &sk_mod LALT &sk_mod LCTRL &sk_mod LSHIFT &trans      &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT  &kp LC(C)
-&trans &trans    &trans     &trans     &trans     &trans          &trans     &trans     &trans     &trans     &trans     &trans
+      &trans     &trans     &trans     &kp C_BRI_UP  &kp C_BRI_DN          &kp PG_UP  &kp HOME   &kp UP     &kp END    &kp DEL
+      &sk_custom LGUI &sk_custom LALT &sk_custom LCTRL &sk_custom LSHIFT &trans      &kp PG_DN  &kp LEFT   &kp DOWN   &kp RIGHT  &kp BSPC
+&trans &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &trans          &kp C_VOL_UP &kp C_VOL_DN  &kp C_PREV &kp C_PP &kp C_NEXT  &kp C_MUTE  
                  &trans     &trans     &trans          &trans     &kp DEL    &trans
             >;
         };
 
-        /* LAYER 2: NUM */
+        /* LAYER 2: NUM (Left Inner Thumb)
+         * Calculator-style pad on Right Hand
+         */
         num_layer {
             label = "NUM";
             bindings = <
       &trans     &trans     &trans     &trans     &trans          &kp FSLH   &kp N7     &kp N8     &kp N9     &kp MINUS
-      &sk_mod LGUI &sk_mod LALT &sk_mod LCTRL &sk_mod LSHIFT &trans      &kp ASTRK  &kp N4     &kp N5     &kp N6     &kp PLUS
-&trans &trans    &trans     &trans     &trans     &trans          &kp N0     &kp N1     &kp N2     &kp N3     &kp DOT    &trans
+      &sk_custom LGUI &sk_custom LALT &sk_custom LCTRL &sk_custom LSHIFT &trans      &kp ASTRK  &kp N4     &kp N5     &kp N6     &kp PLUS
+&trans &trans     &trans     &trans     &trans     &trans          &kp N0     &kp N1     &kp N2     &kp N3     &kp DOT  &trans 
                  &trans     &trans     &trans          &trans     &trans     &trans
             >;
         };
 
-        /* LAYER 3: SYM */
+        /* LAYER 3: SYM & UMLAUTS (Right Inner Thumb)
+         * US-INTL Settings: 
+         * Ä = AltGr + q
+         * Ö = AltGr + p
+         * Ü = AltGr + y
+         */
         sym_layer {
             label = "SYM";
             bindings = <
-      &kp GRAVE  &kp LT     &kp GT     &kp DQT    &kp DOT         &kp AMPS   &trans     &kp LBKT   &kp RBKT   &kp PRCNT
-      &kp EXCL   &kp MINUS  &kp PLUS   &kp EQUAL  &kp HASH        &kp PIPE   &trans     &kp LPAR   &kp RPAR   &kp COLON
-&trans &kp TILDE &kp UNDER  &kp FSLH   &kp ASTRK  &kp BSLH        &kp CARET  &trans     &kp LBRC   &kp RBRC   &kp QMARK  &trans
-                 &trans     &trans     &trans          &trans     &trans     &trans
+/* LEFT HAND (Math & Logic) */               /* RIGHT HAND (Brackets & Umlauts) */
+      &kp GRAVE  &kp LT     &kp GT     &kp DQT    &kp DOT         &kp LPAR   &kp RPAR   &kp RA(P)  &kp RA(Y)  &kp PRCNT
+                                                                  /* (       )          Ö          Ü          % */
+
+      &kp EXCL   &kp MINUS  &kp PLUS   &kp EQUAL  &kp HASH        &kp PIPE   &kp RA(N)  &kp AMPS     &kp RA(Q)  &kp COLON 
+                                                                  /* |       ñ          _          Ä          : */
+&trans  &kp TILDE  &kp UNDER  &kp FSLH   &kp ASTRK  &kp BSLH     &kp LBKT   &kp RBKT   &kp LBRC   &kp RBRC   &kp QMARK &kp CARET
+                 &trans     &trans     &trans          &trans  &trans     &trans        /* [       ]          {          }          ? */
             >;
         };
 
-       /* LAYER 4: FUN */
+
+       /* LAYER 4: FUN (Access via Tri-Layer or Combo if needed) */
         fun_layer {
             label = "FUN";
             bindings = <
-        /* LEFT HAND: System & Bluetooth */                          /* RIGHT HAND: F-Keys */
         &bt BT_CLR    &trans        &kp PSCRN  &kp SLCK  &kp PAUSE_BREAK    &kp F12  &kp F7  &kp F8  &kp F9  &trans
         &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &trans      &kp F11  &kp F4  &kp F5  &kp F6  &trans
-        &trans        &trans        &trans        &trans        &trans      &trans   &kp F10  &kp F1  &kp F2  &kp F3  &trans  &trans
+        &trans        &trans        &trans        &trans        &trans      &trans   &kp F10  &kp F1  &kp F2  &kp F3 &trans  &trans
                                     &trans        &trans        &trans      &trans   &trans  &trans
             >;
         };
