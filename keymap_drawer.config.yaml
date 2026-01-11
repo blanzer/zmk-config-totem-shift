@@ -9,10 +9,10 @@ draw_config:
   dark_mode: auto
   n_columns: 2  # 1 column looks best for Totem (tall and thin)
   separate_combo_diagrams: true
-  trans_legend: {t: ""}
   footer_text: "Totem Layout"
 
 parse_config:
+  trans_legend: {t: ""}
   zmk_behavior_map:
       lt_custom: lt
       sk_custom: sk
@@ -83,6 +83,7 @@ parse_config:
     C_PP: $$mdi:play-pause$$
     C_NEXT: $$mdi:skip-forward$$
     C_PREV: $$mdi:skip-backward$$
+    F20: $$mdi:microphone-off$$  
     
     # Symbols
     EXCL: "!"
