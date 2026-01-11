@@ -39,90 +39,52 @@ layers:
   - {t: ⏎, h: SYM}
   - ⌫
   - {t: LSHIFT, h: sticky}
-  QWERTZ:
-  - Q
-  - W
-  - E
-  - R
-  - T
-  - Z
-  - U
-  - I
-  - O
-  - P
-  - A
-  - S
-  - D
-  - F
-  - G
-  - H
-  - J
-  - K
-  - L
-  - ;
-  - {t: ▽, type: trans}
-  - Y
-  - X
-  - C
-  - V
-  - B
-  - N
-  - M
-  - ','
-  - .
-  - '-'
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  QWERTZ: [Q, W, E, R, T, Z, U, I, O, P, A, S, D, F, G, H, J, K, L, ;, '', Y, X, C, V, B, N, M, ',', ., '-', '', '', '', '', '', '', '']
   NAV:
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
   - $$mdi:brightness-5$$
   - $$mdi:brightness-7$$
   - PgUp
   - Home
   - ↑
   - End
-  - ⌦
+  - PSCRN
   - {t: Gui, h: sticky}
   - {t: Alt, h: sticky}
   - {t: Ctrl, h: sticky}
   - {t: LSHIFT, h: sticky}
-  - {t: ▽, type: trans}
+  - ''
   - PgDn
   - ←
   - ↓
   - →
-  - ⌫
-  - {t: ▽, type: trans}
+  - $$mdi:microphone-off$$
+  - ''
   - Undo
   - Cut
   - Copy
   - Paste
-  - {t: ▽, type: trans}
+  - ''
   - $$mdi:volume-high$$
   - $$mdi:volume-medium$$
   - $$mdi:skip-backward$$
   - $$mdi:play-pause$$
   - $$mdi:skip-forward$$
   - $$mdi:volume-off$$
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
   - {type: held}
-  - {t: ▽, type: trans}
+  - ''
   - ⌦
-  - {t: ▽, type: trans}
+  - ''
   NUM:
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - /
   - '7'
   - '8'
@@ -132,30 +94,30 @@ layers:
   - {t: Alt, h: sticky}
   - {t: Ctrl, h: sticky}
   - {t: LSHIFT, h: sticky}
-  - {t: ▽, type: trans}
+  - ''
   - '*'
   - '4'
   - '5'
   - '6'
   - +
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - '0'
   - '1'
   - '2'
   - '3'
   - .
-  - {t: ▽, type: trans}
+  - ''
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   SYM:
   - '`'
   - <
@@ -177,7 +139,7 @@ layers:
   - '&'
   - Ä
   - ':'
-  - {t: ▽, type: trans}
+  - ''
   - '~'
   - _
   - /
@@ -189,51 +151,51 @@ layers:
   - '}'
   - '?'
   - ^
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
   FUN:
   - BT Clr
-  - {t: ▽, type: trans}
-  - PSCRN
-  - SLCK
-  - PAUSE BREAK
+  - ''
+  - ''
+  - ''
+  - ''
   - F12
   - F7
   - F8
   - F9
-  - {t: ▽, type: trans}
+  - ''
   - BT 1
   - BT 2
   - BT 3
   - BT 4
-  - {t: ▽, type: trans}
+  - ''
   - F11
   - F4
   - F5
   - F6
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - F10
   - F1
   - F2
   - F3
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
 combos:
 - p: [20, 31]
   k: {t: QWERTZ, h: toggle}
